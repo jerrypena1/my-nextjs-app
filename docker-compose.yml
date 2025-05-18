@@ -23,7 +23,7 @@ services:
       - nextjs
 
   db: 
-    image: sqlite:latest
+    image: alpine/sqlite:latest
     volumes:
       - ./data:/data
     environment:
