@@ -1,0 +1,31 @@
+version: '3.8'
+
+services: 
+  nextjs:
+    build: .
+    ports: 
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - db
+
+  nginx: 
+    image: nginx:latest
+    ports: 
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - nextjs
+
+  db: 
+    image: sqlite:latest
+    volumes:
+      - ./data:/data
+    environment:
+      - SQLITE_DB_PATH=/data/db.sqlite
+    restart: always
